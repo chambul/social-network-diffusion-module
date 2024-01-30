@@ -2,4 +2,4 @@
 *.xml~
 *.bak
 target/*
-*/*.log
+*.log
