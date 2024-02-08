@@ -100,10 +100,7 @@ public class TestLTModel {
 			}
 			turn++;
 		}
-		// turn1: 2-active(0,2), 3-inactive
-		//turn2: 3-active(0,2,3), 2-inactive (1=0.0,4=0)
-		//turn3: 4-active(0,2,3,4), 1-inactive (1=0.0)
-		// network weights are not normalised, therefore panic values can exceed 1.0
+
 	}
 
 	

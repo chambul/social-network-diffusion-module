@@ -33,38 +33,32 @@ public class SNModel implements DataSource, DataClient {
         this.allStepsInfoSpreadMap = new TreeMap<Double, DiffusedContent>();
     }
 
-//    public void initSocialAgentMap(List<String> idList) {
-//
-//        // initSNManagerBasedOnConfigs();
-//
-//    }
+
 
     public void initSNModel() { // init SN model with already populated social agent map
 
-
-        this.getSNManager().setupSNConfigsAndLogs(); //setup configs and create log first
+        this.getSNManager().setupSNConfigsAndLogs(); // setup configs and create log first
 
         this.snManager.genNetworkAndDiffModels(); // gen network and diffusion models
         this.snManager.printSNModelconfigs();
 
-        //subscribe to BDI data updates
+        // subscribe to BDI data updates
         this.dataServer.subscribe(this, DataTypes.BDI_STATE_UPDATES);
 
     }
 
     public void initSNModel(List<String> idList) { // init SN model with given agent id list
 
-
-        this.getSNManager().setupSNConfigsAndLogs(); //first, setup configs and create log
+        this.getSNManager().setupSNConfigsAndLogs(); // first, setup configs and create log
 
         for (String id : idList) {
-            this.snManager.createSocialAgent(id); //populate agentmap
+            this.snManager.createSocialAgent(id); // populate agentmap
         }
 
         this.snManager.genNetworkAndDiffModels(); // gen network and diffusion models
         this.snManager.printSNModelconfigs();
 
-        //subscribe to BDI data updates
+        // subscribe to BDI data updates
         this.dataServer.subscribe(this, DataTypes.BDI_STATE_UPDATES);
 
     }
@@ -79,35 +73,36 @@ public class SNModel implements DataSource, DataClient {
 
     public void stepDiffusionProcess() {
 
-      //  if (snManager.processDiffusion((long) dataServer.getTime())) {
-            this.snManager.diffuseContent();
-            if (SNConfig.getDiffusionType().equals(DataTypes.icModel)) {
-                ICModel icModel = (ICModel) getSNManager().getDiffModel();
-                HashMap<String, ArrayList<String>> latestUpdate = icModel.getLatestDiffusionUpdates();
+        // if (snManager.processDiffusion((long) dataServer.getTime())) {
+        this.snManager.diffuseContent();
+        if (SNConfig.getDiffusionType().equals(DataTypes.icModel)) {
+            ICModel icModel = (ICModel) getSNManager().getDiffModel();
+            HashMap<String, ArrayList<String>> latestUpdate = icModel.getLatestDiffusionUpdates();
 
-                icModel.recordCurrentStepSpread(this.dataServer.getTime());
-                DiffusedContent dc = new DiffusedContent();
-                dc.setContentSpreadMap(latestUpdate);
-                this.allStepsInfoSpreadMap.put(dataServer.getTime(), dc);
+            icModel.recordCurrentStepSpread(this.dataServer.getTime());
+            DiffusedContent dc = new DiffusedContent();
+            dc.setContentSpreadMap(latestUpdate);
+            this.allStepsInfoSpreadMap.put(dataServer.getTime(), dc);
 
-                logger.debug("put timed diffusion updates for ICModel at {}", dataServer.getTime());
+            logger.debug("put timed diffusion updates for ICModel at {}", dataServer.getTime());
 
-            }
+        }
 
     }
 
     @Override
     public Object getNewData(double timestep, Object parameters) {
         double currentTime = Time.convertTime(timestep, timestepUnit, Time.TimestepUnit.MINUTES);
-        SortedMap<Double, DiffusedContent> periodicInfoSpread = allStepsInfoSpreadMap.subMap(lastUpdateTimeInMinutes, currentTime);
+        SortedMap<Double, DiffusedContent> periodicInfoSpread = allStepsInfoSpreadMap.subMap(lastUpdateTimeInMinutes,
+                currentTime);
         lastUpdateTimeInMinutes = currentTime;
         Double nextTime = allStepsInfoSpreadMap.higherKey(currentTime);
         if (nextTime != null) {
-            dataServer.registerTimedUpdate(DataTypes.DIFFUSION, this, Time.convertTime(nextTime, Time.TimestepUnit.MINUTES, timestepUnit));
+            dataServer.registerTimedUpdate(DataTypes.DIFFUSION, this,
+                    Time.convertTime(nextTime, Time.TimestepUnit.MINUTES, timestepUnit));
         }
         return periodicInfoSpread;
     }
-
 
     @Override
     public boolean dataUpdate(double time, String dataType, Object data) { // data package from the BDI side
@@ -130,8 +125,8 @@ public class SNModel implements DataSource, DataClient {
         return this.dataServer;
     }
 
-    public TreeMap<Double,DiffusedContent> getAllStepsSpreadMap() {
-        return  this.allStepsInfoSpreadMap;
+    public TreeMap<Double, DiffusedContent> getAllStepsSpreadMap() {
+        return this.allStepsInfoSpreadMap;
     }
 
     /**
@@ -149,9 +144,9 @@ public class SNModel implements DataSource, DataClient {
 
     public void finish() {
 
-        //output diffusion outcomes and wrap up
+        // output diffusion outcomes and wrap up
         ICModel icModel = (ICModel) this.snManager.getDiffModel();
         icModel.finish();
-        icModel.getDataCollector().writeSpreadDataToFile(); //uses the file path specified in the config
+        icModel.getDataCollector().writeSpreadDataToFile(); // uses the file path specified in the config
     }
 }

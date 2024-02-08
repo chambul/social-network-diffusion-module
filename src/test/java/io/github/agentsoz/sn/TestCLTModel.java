@@ -58,8 +58,6 @@ public class TestCLTModel {
         assertEquals(13.12,SNConfig.getSeed(),0);
 
         assertEquals(0.353,SNConfig.getMeanLowPanicThreshold(),0);
-       //   assertEquals(0.751,SNConfig.getMeanHighPanicThreshold(),0); // this is not read from the configs.
-
         assertEquals(25.32,SNConfig.getPanicSeed(),0);
         assertEquals(50.45,SNConfig.getWaitSeed(),0);
         assertEquals(0.244,SNConfig.getWaitThreshold(),0);
@@ -160,8 +158,6 @@ public class TestCLTModel {
         checkSeedValues(testCLT);
 
 
-       // testCLT.printSeedMaps();
-
         testCLT.doDiffProcess();
        // checkSeedValues(testCLT);
         checkTurn1ContentValues(testCLT);
@@ -182,7 +178,6 @@ public class TestCLTModel {
         Assert.assertEquals(0.8,testModel.getAgentMap().get(2).getContentlevel(DataTypes.WAIT),0.00);
         Assert.assertEquals(0.7,testModel.getAgentMap().get(6).getContentlevel(DataTypes.PANIC),0.00); //seed  values same
 
-//        logger.info("optCount: {} waitCount: {} panicCount: {}",testModel.getOptCount(),testModel.getWaitCount(),testModel.getPanicCount());
     }
 
     public void checkTurn1ContentValues(CLTModel testModel) {

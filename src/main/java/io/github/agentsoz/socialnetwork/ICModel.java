@@ -287,32 +287,11 @@ public class ICModel extends DiffModel{
         }
     }
 
-//    public int getTotExposedAgents(){
-//        int ct=0;
-//        for(ArrayList<String> attemptLists: this.exposedMap.values()) {
-//            ct=ct+ attemptLists.size();
-//        }
-//        return ct;
-//    }
 
     public HashMap<String, ArrayList<String>> getLatestDiffusionUpdates() {
 
         return this.currentStepActiveAgents;
 
-//        HashMap<String, String[]> latestSpread =  new HashMap<String, String[]>();
-//        for(String content: this.contentList.keySet()) { // want to send both global and local content types for reasoning.
-//
-//           Integer[] contentArray =  this.dc.getAdoptedAgentIdArrayForContent(snManager,content);
-//
-//           //convert Integer[] to  String[] and pass back to the BDI model
-//            String[] strIdArray = new String[contentArray.length];
-//            for(int i =0; i < contentArray.length; i++) {
-//                strIdArray[i] = String.valueOf(contentArray[i]);
-//            }
-//
-//           latestSpread.put(content,strIdArray);
-//        }
-//            return latestSpread;
     }
 
 

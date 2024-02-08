@@ -18,7 +18,6 @@ import io.github.agentsoz.socialnetwork.util.DataTypes;
 
 public class SocialAgent extends Node{
 	
-//private int ID;
 private double Xcord;
 private double Ycord;
 private String diffState;

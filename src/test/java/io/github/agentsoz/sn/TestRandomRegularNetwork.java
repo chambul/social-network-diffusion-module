@@ -50,11 +50,9 @@ public class TestRandomRegularNetwork {
 	// as a matrix (before updating to the agentMap)
 	public void testRandomRegularNetworkModel()  
 	{
-		//int[][] arr =  new int[40000][40000];
 		RandomRegularNetwork randRegNet = new RandomRegularNetwork(testNodes,testDegree);
 		randRegNet.initAgentArrayList();
 		randRegNet.genRandRegNetwork();
-//		randRegNet.displayMatrix();
 		randRegNet.displayArraylists();
 		randRegNet.verifyNetworkArraylist();
 	}
@@ -69,7 +67,6 @@ public class TestRandomRegularNetwork {
 		randRegNet.genNetworkAndUpdateAgentMap(agentmap);
 		
 		// customised version
-
 //		randRegNet.initAgentArrayList();
 //		randRegNet.genRandRegNetwork();
 //		randRegNet.displayArraylists();
